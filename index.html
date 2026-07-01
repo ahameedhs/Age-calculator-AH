@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Auto Age Calculator</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#34495e">
+    <link rel="icon" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <style>
+        /* Traditional medical/calculator style layout (BabyMed Inspired) */
+        body {
+            background-color: #f4f6f9;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .calculator-container {
+            background-color: #ffffff;
+            max-width: 600px;
+            width: 100%;
+            padding: 25px;
+            border: 1px solid #ccd1d9;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 24px;
+            border-bottom: 2px solid #34495e;
+            padding-bottom: 8px;
+            transition: color 0.3s ease, border-color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        fieldset {
+            border: 1px solid #dcdde1;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #fafbfc;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        legend {
+            font-weight: bold;
+            font-size: 14px;
+            color: #2c3e50;
+            padding: 0 5px;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .input-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #57606f;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #fff;
+            font-size: 14px;
+            font-family: inherit;
+            color: #333;
+            outline: none;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        select:focus {
+            border-color: #3498db;
+        }
+
+        .error-message {
+            background-color: #fadbd8;
+            color: #78281f;
+            border: 1px solid #f5b7b1;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        /* Results Formatting (Exact text block styling from BabyMed) */
+        .results-section {
+            margin-top: 25px;
+        }
+
+        h3 {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #eceff1;
+            padding-bottom: 4px;
+            transition: color 0.3s ease, border-color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .bmed-tools-result-text {
+            background-color: #fcfcfc;
+            border: 1px solid #dcdde1;
+            padding: 20px;
+            border-radius: 4px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #2c3e50;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        .bmed-tools-result-text strong {
+            color: #27ae60;
+            font-size: 17px;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .meta-badge-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            background-color: #eef2f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #34495e;
+            border: 1px solid #dcdde1;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        @media (max-width: 480px) {
+            .input-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* ---- کُلر پیلیٹ (رنگوں کے گول نشان) کا نیا سٹائل ---- */
+        .color-palette {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ccd1d9;
+        }
+
+        .palette-label {
+            font-size: 12px;
+            font-weight: bold;
+            color: inherit;
+        }
+
+        .color-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .color-dot:hover {
+            transform: scale(1.2);
+        }
+
+        .dot-default { background-color: #27ae60; }
+        .dot-cyan { background-color: #00ffff; box-shadow: 0 0 5px #00ffff; }
+        .dot-green { background-color: #39ff14; box-shadow: 0 0 5px #39ff14; }
+        .dot-red { background-color: #ff073a; box-shadow: 0 0 5px #ff073a; }
+        .dot-maroon { background-color: #800000; box-shadow: 0 0 5px #ff1493; }
+        .dot-golden { background-color: #ffd700; box-shadow: 0 0 5px #ffd700; }
+
+        /* ---- نیون تھیم کے کلاسز جو کلک کرنے پر فعال ہوں گے ---- */
+        body.neon-mode {
+            background-color: #0b0c10;
+            color: #c5c6c7;
+        }
+        body.neon-mode .calculator-container {
+            background-color: #1f2833;
+        }
+        body.neon-mode fieldset {
+            background-color: #0b0c10;
+        }
+        body.neon-mode select {
+            background-color: #1f2833;
+            color: #fff;
+        }
+        body.neon-mode .bmed-tools-result-text {
+            background-color: #151a21;
+            color: #c5c6c7;
+        }
+        body.neon-mode label {
+            color: #c5c6c7;
+        }
+        body.neon-mode .meta-badge {
+            background-color: #151a21;
+            color: var(--n-color);
+            border-color: var(--n-color);
+            box-shadow: 0 0 5px var(--n-color);
+        }
+
+        /* مخصوص رنگوں کی نیون چمک */
+        body.n-cyan { --n-color: #00ffff; }
+        body.n-green  { --n-color: #39ff14; }
+        body.n-red    { --n-color: #ff073a; }
+        body.n-maroon { --n-color: #ff1493; }
+        body.n-golden { --n-color: #ffd700; }
+
+        body.neon-mode .calculator-container { border-color: var(--n-color); box-shadow: 0 0 15px var(--n-color); }
+        body.neon-mode h2 { color: var(--n-color); border-color: var(--n-color); text-shadow: 0 0 8px var(--n-color); }
+        body.neon-mode h3 { color: var(--n-color); border-color: var(--n-color); text-shadow: 0 0 8px var(--n-color); }
+        body.neon-mode fieldset { border-color: var(--n-color); }
+        body.neon-mode legend { color: var(--n-color); text-shadow: 0 0 8px var(--n-color); }
+        body.neon-mode select { border-color: var(--n-color); }
+        body.neon-mode .bmed-tools-result-text { border-color: var(--n-color); }
+        body.neon-mode .bmed-tools-result-text strong { color: var(--n-color); text-shadow: 0 0 8px var(--n-color); }
+    </style>
+</head>
+<body>
+
+    <div class="calculator-container">
+        
+        <!-- نیون رنگوں کے گول نشانات (Color Palette) -->
+        <div class="color-palette">
+            <span class="palette-label">Neon Theme:</span>
+            <div class="color-dot dot-default" title="Default Mode" onclick="applyNeon('default')"></div>
+            <div class="color-dot dot-cyan" title="Cyan" onclick="applyNeon('cyan')"></div>
+            <div class="color-dot dot-green" title="Green" onclick="applyNeon('green')"></div>
+            <div class="color-dot dot-red" title="Red" onclick="applyNeon('red')"></div>
+            <div class="color-dot dot-maroon" title="Maroon/Pink" onclick="applyNeon('maroon')"></div>
+            <div class="color-dot dot-golden" title="Golden" onclick="applyNeon('golden')"></div>
+        </div>
+
+        <h2>Age Calculator</h2>
+        <p class="subtitle">Change any value below. The exact calculation will start updating instantly without pressing any button.</p>
+        
+        <form id="ageForm" onsubmit="event.preventDefault();">
+            <!-- Date of Birth Section -->
+            <fieldset>
+                <legend>Date of Birth</legend>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="dobMonth">Month</label>
+                        <select id="dobMonth" required></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="dobDay">Day</label>
+                        <select id="dobDay" required></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="dobYear">Year</label>
+                        <select id="dobYear" required></select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Time of Birth Section (Optional) -->
+            <fieldset>
+                <legend>Time of Birth (Optional)</legend>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="birthHour">Hour (0-23)</label>
+                        <select id="birthHour"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="birthMinute">Minute</label>
+                        <select id="birthMinute"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="birthSecond">Second</label>
+                        <select id="birthSecond"></select>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+
+        <!-- Error Container -->
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+        <!-- Live Results Section -->
+        <div id="resultsSection" class="results-section">
+            <h3>Calculation Results</h3>
+            
+            <!-- Badges for Sun Sign and Islamic Dates -->
+            <div class="meta-badge-container">
+                <div class="meta-badge" id="zodiacOutput">Sun Sign: Calculating...</div>
+                <div class="meta-badge" id="islamicBirthOutput">Islamic DOB: Calculating...</div>
+                <div class="meta-badge" id="islamicDateOutput">Current Islamic Date: Calculating...</div>
+            </div>
+
+            <div class="bmed-tools-result-text" id="liveResultOutput"></div>
+        </div>
+    </div>
+
+    <script>
+        let liveInterval = null;
+        
+        // Agar Islami tareeq me 1 din ka farq ho to yahan se adjustment badlein (-1 ya 1)
+        const ISLAMIC_OFFSET_DAYS = -1; 
+
+        // صرف تھیم تبدیل کرنے کا فنکشن (باقی کوڈ کو چھیڑے بغیر)
+        function applyNeon(color) {
+            document.body.classList.remove('neon-mode', 'n-cyan', 'n-green', 'n-red', 'n-maroon', 'n-golden');
+            if (color !== 'default') {
+                document.body.classList.add('neon-mode', 'n-' + color);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const monthSelect = document.getElementById('dobMonth');
+            const daySelect = document.getElementById('dobDay');
+            const yearSelect = document.getElementById('dobYear');
+            const hourSelect = document.getElementById('birthHour');
+            const minSelect = document.getElementById('birthMinute');
+            const secSelect = document.getElementById('birthSecond');
+
+            // Dropdowns پاپولیٹ کریں
+            months.forEach((month, index) => {
+                let opt = document.createElement('option');
+                opt.value = index; opt.textContent = month;
+                monthSelect.appendChild(opt);
+            });
+
+            for (let i = 1; i <= 31; i++) {
+                let opt = document.createElement('option');
+                opt.value = i; opt.textContent = i;
+                daySelect.appendChild(opt);
+            }
+
+            const currentYear = new Date().getFullYear();
+            for (let i = currentYear; i >= 1900; i--) {
+                let opt = document.createElement('option');
+                opt.value = i; opt.textContent = i;
+                yearSelect.appendChild(opt);
+            }
+
+            let optHourDefault = document.createElement('option');
+            optHourDefault.value = "0"; optHourDefault.textContent = "00 (Midnight)";
+            hourSelect.appendChild(optHourDefault);
+            for(let i = 1; i <= 23; i++) {
+                let opt = document.createElement('option');
+                opt.value = i; opt.textContent = i < 10 ? '0' + i : i;
+                hourSelect.appendChild(opt);
+            }
+
+            let optMinDefault = document.createElement('option'); optMinDefault.value = "0"; optMinDefault.textContent = "00";
+            let optSecDefault = document.createElement('option'); optSecDefault.value = "0"; optSecDefault.textContent = "00";
+            minSelect.appendChild(optMinDefault); secSelect.appendChild(optSecDefault);
+
+            for(let i = 1; i <= 59; i++) {
+                let label = i < 10 ? '0' + i : i;
+                let optM = document.createElement('option'); optM.value = i; optM.textContent = label;
+                let optS = document.createElement('option'); optS.value = i; optS.textContent = label;
+                minSelect.appendChild(optM); minSelect.appendChild(optS);
+            }
+
+            // ڈیفالٹ پر 2000 یا کوئی بھی پاسٹ تاریخ سیٹ کریں تاکہ پیج لوڈ ہوتے ہی حساب شروع ہو جائے
+            monthSelect.value = 0; // January
+            daySelect.value = 1;  // 1st
+            yearSelect.value = 2000; // 2000
+
+            // ایونٹ لسنرز لگائیں تاکہ کسی بھی تبدیلی پر آٹو کیلکولیٹ ہو
+            [monthSelect, daySelect, yearSelect, hourSelect, minSelect, secSelect].forEach(element => {
+                element.addEventListener('change', autoCalculateAge);
+            });
+
+            // پہلی بار پیج لوڈ ہوتے ہی خود بخود رن کریں
+            autoCalculateAge();
+        });
+
+        // Sun Sign (Zodiac) nikalne ka function
+        function getZodiacSign(day, month) {
+            const m = month + 1;
+            if ((m == 3 && day >= 21) || (m == 4 && day <= 19)) return "Aries ♈";
+            if ((m == 4 && day >= 20) || (m == 5 && day <= 20)) return "Taurus ♉";
+            if ((m == 5 && day >= 21) || (m == 6 && day <= 20)) return "Gemini ♊";
+            if ((m == 6 && day >= 21) || (m == 7 && day <= 22)) return "Cancer ♋";
+            if ((m == 7 && day >= 23) || (m == 8 && day <= 22)) return "Leo ♌";
+            if ((m == 8 && day >= 23) || (m == 9 && day <= 22)) return "Virgo ♍";
+            if ((m == 9 && day >= 23) || (m == 10 && day <= 22)) return "Libra ♎";
+            if ((m == 10 && day >= 23) || (m == 11 && day <= 21)) return "Scorpio ♏";
+            if ((m == 11 && day >= 22) || (m == 12 && day <= 21)) return "Sagittarius ♐";
+            if ((m == 12 && day >= 22) || (m == 1 && day <= 19)) return "Capricorn ♑";
+            if ((m == 1 && day >= 20) || (m == 2 && day <= 18)) return "Aquarius ♒";
+            return "Pisces ♓";
+        }
+
+        // Islamic Date format karne ka function with adjustment offset
+        function convertToIslamicDate(targetDate, offsetDays) {
+            try {
+                const adjustedDate = new Date(targetDate.getTime());
+                adjustedDate.setDate(adjustedDate.getDate() + offsetDays);
+                
+                const formatter = new Intl.DateTimeFormat('en-TN-u-ca-islamic', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                return formatter.format(adjustedDate);
+            } catch (e) {
+                return "Not Available";
+            }
+        }
+
+        function autoCalculateAge() {
+            if (liveInterval) clearInterval(liveInterval);
+
+            const errorDiv = document.getElementById('errorMessage');
+            const outputContainer = document.getElementById('liveResultOutput');
+            const zodiacBox = document.getElementById('zodiacOutput');
+            const islamicBirthBox = document.getElementById('islamicBirthOutput');
+            const islamicBox = document.getElementById('islamicDateOutput');
+            
+            errorDiv.style.display = "none";
+
+            const year = parseInt(document.getElementById('dobYear').value);
+            const month = parseInt(document.getElementById('dobMonth').value);
+            const day = parseInt(document.getElementById('dobDay').value);
+            const hour = parseInt(document.getElementById('birthHour').value) || 0;
+            const minute = parseInt(document.getElementById('birthMinute').value) || 0;
+            const second = parseInt(document.getElementById('birthSecond').value) || 0;
+
+            const birthDate = new Date(year, month, day, hour, minute, second);
+            
+            // کیلنڈر ویلیڈیشن چیک
+            if (birthDate.getFullYear() !== year || birthDate.getMonth() !== month || birthDate.getDate() !== day) {
+                errorDiv.textContent = "The selected date combination is invalid for that month.";
+                errorDiv.style.display = "block";
+                outputContainer.innerHTML = "<span style='color:#78281f;'>Waiting for a valid date...</span>";
+                return;
+            }
+
+            if (birthDate > new Date()) {
+                errorDiv.textContent = "The Date of Birth cannot be a future date.";
+                errorDiv.style.display = "block";
+                outputContainer.innerHTML = "<span style='color:#78281f;'>Waiting for a past date...</span>";
+                return;
+            }
+
+            // Set Static/Instant updates
+            zodiacBox.textContent = "Sun Sign: " + getZodiacSign(day, month);
+            islamicBirthBox.textContent = "Islamic DOB: " + convertToIslamicDate(birthDate, ISLAMIC_OFFSET_DAYS);
+            islamicBox.textContent = "Current Islamic Date: " + convertToIslamicDate(new Date(), ISLAMIC_OFFSET_DAYS);
+
+            // لائیو لوپ چلائیں
+            runCalculation(birthDate);
+            liveInterval = setInterval(() => { 
+                runCalculation(birthDate); 
+                islamicBox.textContent = "Current Islamic Date: " + convertToIslamicDate(new Date(), ISLAMIC_OFFSET_DAYS);
+            }, 1000);
+        }
+
+        function runCalculation(birthDate) {
+            const now = new Date();
+            const outputContainer = document.getElementById('liveResultOutput');
+
+            let yearsAge = now.getFullYear() - birthDate.getFullYear();
+            let monthsAge = now.getMonth() - birthDate.getMonth();
+            let daysAge = now.getDate() - birthDate.getDate();
+            let hoursAge = now.getHours() - birthDate.getHours();
+            let minutesAge = now.getMinutes() - birthDate.getMinutes();
+            let secondsAge = now.getSeconds() - birthDate.getSeconds();
+
+            if (secondsAge < 0) { secondsAge += 60; minutesAge--; }
+            if (minutesAge < 0) { minutesAge += 60; hoursAge--; }
+            if (hoursAge < 0) { hoursAge += 24; daysAge--; }
+            if (daysAge < 0) {
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+                daysAge += prevMonth;
+                monthsAge--;
+            }
+            if (monthsAge < 0) { monthsAge += 12; yearsAge--; }
+
+            const diffMs = now - birthDate;
+            const totalSeconds = Math.floor(diffMs / 1000);
+            const totalMinutes = totalSeconds / 60;
+            const totalHours = totalMinutes / 60;
+            const totalDays = totalHours / 24;
+            const totalWeeks = totalDays / 7;
+            
+            const totalMonths = (yearsAge * 12) + monthsAge + (daysAge / 30.4375);
+            const decimalYears = totalDays / 365.2425;
+
+            let nextBirthday = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate(), birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds());
+            if (now > nextBirthday) nextBirthday.setFullYear(now.getFullYear() + 1);
+            
+            let diffNextMs = nextBirthday - now;
+            let nextSecs = Math.floor(diffNextMs / 1000);
+            let nextMins = Math.floor(nextSecs / 60);
+            let nextHours = Math.floor(nextMins / 60);
+            let nextDays = Math.floor(nextHours / 24);
+
+            nextSecs %= 60; nextMins %= 60; nextHours %= 24;
+
+            outputContainer.innerHTML = `
+                <strong>Today you are ${yearsAge} years ${monthsAge} months ${daysAge} days ${hoursAge} hrs ${minutesAge} mins ${secondsAge} secs old.</strong>
+                <br><br>
+                You are ${decimalYears.toFixed(4)} years old...<br>
+                or ${totalMonths.toFixed(4)} months<br>
+                or ${totalWeeks.toFixed(4)} weeks<br>
+                or ${totalDays.toFixed(4)} days<br>
+                or ${Math.floor(totalHours).toLocaleString()}.${((totalHours % 1) * 10000).toFixed(0).padStart(4, '0')} hours<br>
+                or ${Math.floor(totalMinutes).toLocaleString()}.${((totalMinutes % 1) * 10000).toFixed(0).padStart(4, '0')} minutes<br>
+                or ${totalSeconds.toLocaleString()} seconds
+                <br><br>
+                Your next birthday celebration is in:<br>
+                ${nextDays} days ${nextHours} hrs ${nextMins} mins ${nextSecs} secs.
+            `;
+        }
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js');
+            });
+        }
+    </script>
+</body>
+</html>
