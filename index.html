@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Auto Age Calculator</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#34495e">
-    <link rel="icon" href="icon-192.png">
-  <link rel="apple-touch-icon" href="icon-192.png">
     <style>
         /* Traditional medical/calculator style layout (BabyMed Inspired) */
         body {
@@ -254,6 +250,13 @@
         body.neon-mode .bmed-tools-result-text { border-color: var(--n-color); }
         body.neon-mode .bmed-tools-result-text strong { color: var(--n-color); text-shadow: 0 0 8px var(--n-color); }
     </style>
+
+    <!-- ===== Google AdSense (auto ads + code) =====
+         YAHAN apna asal AdSense script daalein jab approval mil jaye.
+         Neeche wala ca-pub-XXXXXXXXXXXXXXXX ko apne asal Publisher ID se replace karein.
+         Ye script AdSense dashboard se "Get code" karke milega. -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+     crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -269,6 +272,17 @@
             <div class="color-dot dot-maroon" title="Maroon/Pink" onclick="applyNeon('maroon')"></div>
             <div class="color-dot dot-golden" title="Golden" onclick="applyNeon('golden')"></div>
         </div>
+
+        <!-- ===== AdSense Ad Unit #1 (Top) =====
+             AdSense dashboard se "Ad units" > "Display ads" bana kar
+             data-ad-client aur data-ad-slot ki values yahan apni wali daalein. -->
+        <ins class="adsbygoogle"
+             style="display:block; margin-bottom:15px;"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="YYYYYYYYYY"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
         <h2>Age Calculator</h2>
         <p class="subtitle">Change any value below. The exact calculation will start updating instantly without pressing any button.</p>
@@ -329,6 +343,15 @@
 
             <div class="bmed-tools-result-text" id="liveResultOutput"></div>
         </div>
+
+        <!-- ===== AdSense Ad Unit #2 (Bottom) ===== -->
+        <ins class="adsbygoogle"
+             style="display:block; margin-top:15px;"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="ZZZZZZZZZZ"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
     <script>
@@ -546,13 +569,6 @@
                 Your next birthday celebration is in:<br>
                 ${nextDays} days ${nextHours} hrs ${nextMins} mins ${nextSecs} secs.
             `;
-        }
-    </script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js');
-            });
         }
     </script>
 </body>
