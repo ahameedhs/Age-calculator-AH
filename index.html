@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Age Calculator AH</title>
+    <title>Age Calculator</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f1c3f">
     <style>
         /* Traditional medical/calculator style layout (BabyMed Inspired) */
         body {
@@ -19,46 +21,48 @@
         }
 
         .calculator-container {
-            background-color: #ffffff;
+            background: linear-gradient(160deg, #0f1c3f, #142850);
+            color: #e5eaf7;
             max-width: 600px;
             width: 100%;
             padding: 25px;
-            border: 1px solid #ccd1d9;
+            border: 1px solid #223764;
             border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 0 25px rgba(0, 200, 255, 0.15);
             box-sizing: border-box;
             transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         h2 {
-            color: #2c3e50;
+            color: #00e5ff;
             margin-top: 0;
             margin-bottom: 5px;
             font-size: 24px;
-            border-bottom: 2px solid #34495e;
+            border-bottom: 2px solid #223764;
             padding-bottom: 8px;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
             transition: color 0.3s ease, border-color 0.3s ease, text-shadow 0.3s ease;
         }
 
         .subtitle {
             font-size: 13px;
-            color: #7f8c8d;
+            color: #a9b4d0;
             margin-bottom: 20px;
         }
 
         fieldset {
-            border: 1px solid #dcdde1;
+            border: 1px solid #223764;
             border-radius: 4px;
             padding: 15px;
             margin-bottom: 15px;
-            background-color: #fafbfc;
+            background-color: #0c1830;
             transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         legend {
             font-weight: bold;
             font-size: 14px;
-            color: #2c3e50;
+            color: #7dd3fc;
             padding: 0 5px;
             transition: color 0.3s ease, text-shadow 0.3s ease;
         }
@@ -77,25 +81,25 @@
         label {
             font-size: 12px;
             margin-bottom: 5px;
-            color: #57606f;
+            color: #b8c2e0;
             font-weight: bold;
             transition: color 0.3s ease;
         }
 
         select {
             padding: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid #2c3e63;
             border-radius: 3px;
-            background-color: #fff;
+            background-color: #0c1830;
             font-size: 14px;
             font-family: inherit;
-            color: #333;
+            color: #e5eaf7;
             outline: none;
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
 
         select:focus {
-            border-color: #3498db;
+            border-color: #00e5ff;
         }
 
         .error-message {
@@ -115,28 +119,134 @@
 
         h3 {
             font-size: 16px;
-            color: #2c3e50;
+            color: #7dd3fc;
             margin-bottom: 12px;
-            border-bottom: 1px solid #eceff1;
+            border-bottom: 1px solid #223764;
             padding-bottom: 4px;
             transition: color 0.3s ease, border-color 0.3s ease, text-shadow 0.3s ease;
         }
 
         .bmed-tools-result-text {
-            background-color: #fcfcfc;
-            border: 1px solid #dcdde1;
+            background-color: #0c1830;
+            border: 1px solid #223764;
             padding: 20px;
             border-radius: 4px;
             font-size: 15px;
             line-height: 1.6;
-            color: #2c3e50;
+            color: #dbe3f7;
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
 
         .bmed-tools-result-text strong {
-            color: #27ae60;
+            color: #39ff14;
             font-size: 17px;
+            text-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
             transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        /* ===== Next Birthday Countdown Boxes ===== */
+        .countdown-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #b8c2e0;
+            margin-bottom: 10px;
+        }
+        body.neon-mode .countdown-title {
+            color: #c5c6c7;
+        }
+        .countdown-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .countdown-box {
+            flex: 1;
+            min-width: 58px;
+            background: #10131a;
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 10px 4px;
+            text-align: center;
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 10px #00ffff;
+        }
+        .countdown-box .countdown-num {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 1.2;
+            text-shadow: 0 0 8px currentColor;
+        }
+        .countdown-box .countdown-label {
+            display: block;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+        /* Har box ka apna neon rang */
+        .countdown-row .countdown-box:nth-child(1) { border-color: #00ffff; box-shadow: 0 0 10px #00ffff; }
+        .countdown-row .countdown-box:nth-child(1) .countdown-num { color: #00ffff; }
+        .countdown-row .countdown-box:nth-child(2) { border-color: #39ff14; box-shadow: 0 0 10px #39ff14; }
+        .countdown-row .countdown-box:nth-child(2) .countdown-num { color: #39ff14; }
+        .countdown-row .countdown-box:nth-child(3) { border-color: #ff073a; box-shadow: 0 0 10px #ff073a; }
+        .countdown-row .countdown-box:nth-child(3) .countdown-num { color: #ff073a; }
+        .countdown-row .countdown-box:nth-child(4) { border-color: #ffd700; box-shadow: 0 0 10px #ffd700; }
+        .countdown-row .countdown-box:nth-child(4) .countdown-num { color: #ffd700; }
+        .countdown-row .countdown-box:nth-child(5) { border-color: #ff1493; box-shadow: 0 0 10px #ff1493; }
+        .countdown-row .countdown-box:nth-child(5) .countdown-num { color: #ff1493; }
+        .countdown-row .countdown-box:nth-child(6) { border-color: #ff8c00; box-shadow: 0 0 10px #ff8c00; }
+        .countdown-row .countdown-box:nth-child(6) .countdown-num { color: #ff8c00; }
+        .countdown-row .countdown-box:nth-child(7) { border-color: #9d00ff; box-shadow: 0 0 10px #9d00ff; }
+        .countdown-row .countdown-box:nth-child(7) .countdown-num { color: #9d00ff; }
+
+        body.neon-mode .countdown-box {
+            background: #151a21;
+            border: 1px solid var(--n-color);
+            box-shadow: 0 0 10px var(--n-color);
+        }
+        body.neon-mode .countdown-box .countdown-num {
+            color: var(--n-color);
+            text-shadow: 0 0 8px var(--n-color);
+        }
+        @media (max-width: 480px) {
+            .countdown-box .countdown-num { font-size: 16px; }
+            .countdown-box .countdown-label { font-size: 9px; }
+        }
+
+        /* ===== Floating Scroll Nav (Up/Down) ===== */
+        .scroll-nav {
+            position: fixed;
+            right: max(16px, calc((100vw - 600px) / 2 + 16px));
+            bottom: 90px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 20;
+        }
+        .scroll-nav-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(160deg, #2c3e50, #34495e);
+            color: #ffffff;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.15s ease;
+        }
+        .scroll-nav-btn:hover { transform: scale(1.08); }
+        .scroll-nav-btn:active { transform: scale(0.95); }
+        body.neon-mode .scroll-nav-btn {
+            background: #151a21;
+            border: 1px solid var(--n-color);
+            color: var(--n-color);
+            box-shadow: 0 0 12px var(--n-color);
         }
 
         .meta-badge-container {
@@ -160,6 +270,142 @@
             text-align: center;
         }
 
+        /* ===== Info Buttons (Islamic Date & Zodiac) - Countdown-box jaisa khoobsurat style ===== */
+        .info-btn-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .info-btn {
+            flex: 1;
+            min-width: 140px;
+            background: #10131a;
+            border: 1px solid #00e5ff;
+            color: #ffffff;
+            padding: 14px 8px;
+            border-radius: 10px;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            box-shadow: 0 0 12px #00e5ff;
+            transition: all 0.2s ease;
+        }
+        .info-btn .info-btn-icon {
+            font-size: 26px;
+            line-height: 1;
+            text-shadow: 0 0 10px currentColor;
+        }
+        .info-btn .info-btn-label {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            opacity: 0.9;
+        }
+
+        .info-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 18px #00e5ff;
+        }
+
+        /* Har button ka apna neon rang, countdown boxes ki tarah */
+        .info-btn-row .info-btn:nth-child(1) { border-color: #00e5ff; box-shadow: 0 0 12px #00e5ff; }
+        .info-btn-row .info-btn:nth-child(1):hover { box-shadow: 0 0 18px #00e5ff; }
+        .info-btn-row .info-btn:nth-child(2) { border-color: #ff1493; box-shadow: 0 0 12px #ff1493; }
+        .info-btn-row .info-btn:nth-child(2):hover { box-shadow: 0 0 18px #ff1493; }
+
+        body.neon-mode .info-btn {
+            background-color: #151a21;
+            color: var(--n-color);
+            border-color: var(--n-color);
+            box-shadow: 0 0 5px var(--n-color);
+        }
+
+        /* Popup / Modal */
+        .info-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .info-modal-overlay.active {
+            display: flex;
+        }
+        .info-modal-box {
+            background: linear-gradient(160deg, #0f1c3f, #142850);
+            border: 1px solid #00e5ff;
+            border-radius: 10px;
+            padding: 22px;
+            max-width: 360px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.35);
+            position: relative;
+            animation: screenFadeIn 0.25s ease;
+        }
+        body.neon-mode .info-modal-box {
+            background-color: #1f2833;
+            border: 1px solid var(--n-color);
+            box-shadow: 0 0 20px var(--n-color);
+        }
+        .info-modal-box h4 {
+            margin: 0 0 14px 0;
+            color: #00e5ff;
+            font-size: 18px;
+            border-bottom: 1px solid #223764;
+            padding-bottom: 8px;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
+        body.neon-mode .info-modal-box h4 {
+            color: var(--n-color);
+            border-color: var(--n-color);
+            text-shadow: 0 0 8px var(--n-color);
+        }
+        .info-modal-box p {
+            margin: 10px 0;
+            font-size: 15px;
+            color: #f0f3fa;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+        .info-modal-box p strong {
+            color: #7dd3fc;
+            display: block;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 3px;
+        }
+        body.neon-mode .info-modal-box p {
+            color: #f0f3fa;
+        }
+        body.neon-mode .info-modal-box p strong {
+            color: var(--n-color);
+        }
+        .info-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #7dd3fc;
+            line-height: 1;
+        }
+        body.neon-mode .info-modal-close {
+            color: var(--n-color);
+        }
+
         @media (max-width: 480px) {
             .input-row {
                 flex-direction: column;
@@ -170,12 +416,66 @@
         /* ---- کُلر پیلیٹ (رنگوں کے گول نشان) کا نیا سٹائل ---- */
         .color-palette {
             display: flex;
-            justify-content: flex-end;
+            flex-wrap: wrap;
+            justify-content: space-between;
             align-items: center;
             gap: 10px;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 1px dashed #ccd1d9;
+            border-bottom: 1px dashed #2c3e63;
+        }
+
+        /* ===== Mini Countdown (color palette row ki khaali jagah mein) ===== */
+        .mini-countdown-row {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .mini-countdown-box {
+            background: #10131a;
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 6px #00ffff;
+            border-radius: 5px;
+            padding: 3px 6px;
+            text-align: center;
+            min-width: 26px;
+        }
+        .mini-countdown-box .mini-num {
+            display: block;
+            font-size: 11px;
+            font-weight: bold;
+            line-height: 1.15;
+            text-shadow: 0 0 6px currentColor;
+        }
+        .mini-countdown-box .mini-label {
+            display: block;
+            font-size: 7px;
+            opacity: 0.85;
+            text-transform: uppercase;
+            margin-top: 1px;
+        }
+        .mini-countdown-row .mini-countdown-box:nth-child(1) { border-color: #00ffff; box-shadow: 0 0 6px #00ffff; }
+        .mini-countdown-row .mini-countdown-box:nth-child(1) .mini-num { color: #00ffff; }
+        .mini-countdown-row .mini-countdown-box:nth-child(2) { border-color: #39ff14; box-shadow: 0 0 6px #39ff14; }
+        .mini-countdown-row .mini-countdown-box:nth-child(2) .mini-num { color: #39ff14; }
+        .mini-countdown-row .mini-countdown-box:nth-child(3) { border-color: #ff073a; box-shadow: 0 0 6px #ff073a; }
+        .mini-countdown-row .mini-countdown-box:nth-child(3) .mini-num { color: #ff073a; }
+        .mini-countdown-row .mini-countdown-box:nth-child(4) { border-color: #ffd700; box-shadow: 0 0 6px #ffd700; }
+        .mini-countdown-row .mini-countdown-box:nth-child(4) .mini-num { color: #ffd700; }
+        .mini-countdown-row .mini-countdown-box:nth-child(5) { border-color: #ff1493; box-shadow: 0 0 6px #ff1493; }
+        .mini-countdown-row .mini-countdown-box:nth-child(5) .mini-num { color: #ff1493; }
+        .mini-countdown-row .mini-countdown-box:nth-child(6) { border-color: #ff8c00; box-shadow: 0 0 6px #ff8c00; }
+        .mini-countdown-row .mini-countdown-box:nth-child(6) .mini-num { color: #ff8c00; }
+        .mini-countdown-row .mini-countdown-box:nth-child(7) { border-color: #9d00ff; box-shadow: 0 0 6px #9d00ff; }
+        .mini-countdown-row .mini-countdown-box:nth-child(7) .mini-num { color: #9d00ff; }
+
+        body.neon-mode .mini-countdown-box {
+            background: #151a21;
+            border-color: var(--n-color) !important;
+            box-shadow: 0 0 6px var(--n-color) !important;
+        }
+        body.neon-mode .mini-countdown-box .mini-num {
+            color: var(--n-color) !important;
         }
 
         .palette-label {
@@ -259,7 +559,7 @@
             height: 100dvh;
             box-sizing: border-box;
             overflow-y: auto;
-            background: linear-gradient(160deg, #f4f6f9 0%, #e9edf3 100%);
+            background: linear-gradient(160deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             padding: 24px;
             z-index: 10;
         }
@@ -289,54 +589,66 @@
             height: 92px;
             margin: 0 auto 24px;
             border-radius: 50%;
-            background: #ffffff;
+            background: #151a30;
+            border: 2px solid #00ffff;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 44px;
-            box-shadow: 0 8px 24px rgba(44, 62, 80, 0.12);
+            box-shadow: 0 0 25px #00ffff, 0 0 50px rgba(0, 255, 255, 0.35);
         }
 
         .app-screen h1 {
-            color: #2c3e50;
-            font-size: 24px;
+            color: #ffffff;
+            font-size: 25px;
             margin-bottom: 12px;
             line-height: 1.3;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 12px #00ffff, 0 0 24px rgba(0, 255, 255, 0.5);
         }
         .app-screen p {
-            color: #57606f;
+            color: #d6d9f5;
             font-size: 15px;
             line-height: 1.7;
             margin-bottom: 32px;
         }
 
         .screen-btn {
-            background-color: #2c3e50;
-            color: #ffffff;
+            background: linear-gradient(160deg, #00c9ff, #00fff0);
+            color: #0f0c29;
             border: none;
             padding: 15px 48px;
             border-radius: 28px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-            box-shadow: 0 6px 16px rgba(44, 62, 80, 0.25);
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+            box-shadow: 0 0 18px #00ffff, 0 0 36px rgba(0, 255, 255, 0.4);
         }
-        .screen-btn:hover { background-color: #34495e; transform: translateY(-2px); }
+        .screen-btn:hover { transform: translateY(-2px); box-shadow: 0 0 24px #00ffff, 0 0 48px rgba(0, 255, 255, 0.55); }
         .screen-btn:active { transform: translateY(0); }
 
-        .screen-btn.btn-red { background-color: #e74c3c; box-shadow: 0 6px 16px rgba(231, 76, 60, 0.35); }
-        .screen-btn.btn-red:hover { background-color: #c0392b; }
+        .screen-btn.btn-red {
+            background: linear-gradient(160deg, #ff416c, #ff4b2b);
+            color: #ffffff;
+            box-shadow: 0 0 18px #ff073a, 0 0 36px rgba(255, 7, 58, 0.45);
+        }
+        .screen-btn.btn-red:hover { box-shadow: 0 0 24px #ff073a, 0 0 48px rgba(255, 7, 58, 0.6); }
 
         .screen-dots { display: flex; justify-content: center; gap: 7px; margin-top: 28px; }
-        .screen-dot { width: 8px; height: 8px; border-radius: 50%; background-color: #ccd1d9; transition: all 0.25s ease; }
-        .screen-dot.active { background-color: #2c3e50; width: 22px; border-radius: 4px; }
+        .screen-dot { width: 8px; height: 8px; border-radius: 50%; background-color: rgba(255,255,255,0.25); transition: all 0.25s ease; }
+        .screen-dot.active { background-color: #00ffff; width: 22px; border-radius: 4px; box-shadow: 0 0 8px #00ffff; }
+
 
         /* Calculator screen: top aligned, scrollable */
         .app-screen.screen-scroll {
             justify-content: flex-start;
             align-items: center;
             padding-top: 30px;
+            background: linear-gradient(160deg, #1f1147 0%, #3a1c71 45%, #096a7a 100%) !important;
+        }
+        body.neon-mode .app-screen.screen-scroll {
+            background: #0b0c10 !important;
         }
     </style>
 
@@ -353,7 +665,7 @@
     <div class="app-screen screen-intro active" id="screen-welcome">
         <div class="intro-inner">
             <div class="screen-icon-badge">🎂</div>
-            <h1>Welcome to Age Calculator AH</h1>
+            <h1>Welcome to Age Calculator</h1>
             <p>Find your exact age in years, months, days — and much more — instantly. Let's get started!</p>
             <button class="screen-btn btn-red" onclick="showScreen('screen-2')">Start</button>
             <div class="screen-dots">
@@ -399,10 +711,24 @@
 
     <!-- ===== Screen 4: Main Calculator (existing app) ===== -->
     <div class="app-screen screen-scroll" id="screen-calculator">
+
+    <!-- Floating Up/Down Scroll Buttons -->
+    <div class="scroll-nav">
+        <button type="button" class="scroll-nav-btn" onclick="scrollCalculator('top')" title="Go to Top">▲</button>
+        <button type="button" class="scroll-nav-btn" onclick="scrollCalculator('bottom')" title="Go to Bottom">▼</button>
+    </div>
+
     <div class="calculator-container">
         
         <!-- نیون رنگوں کے گول نشانات (Color Palette) -->
         <div class="color-palette">
+            <div class="mini-countdown-row" title="Next birthday countdown">
+                <div class="mini-countdown-box"><span class="mini-num" id="miniDays">0</span><span class="mini-label">D</span></div>
+                <div class="mini-countdown-box"><span class="mini-num" id="miniHrs">0</span><span class="mini-label">H</span></div>
+                <div class="mini-countdown-box"><span class="mini-num" id="miniMins">0</span><span class="mini-label">M</span></div>
+                <div class="mini-countdown-box"><span class="mini-num" id="miniSecs">0</span><span class="mini-label">S</span></div>
+                <div class="mini-countdown-box"><span class="mini-num" id="miniMs">0</span><span class="mini-label">Ms</span></div>
+            </div>
             <span class="palette-label">Neon Theme:</span>
             <div class="color-dot dot-default" title="Default Mode" onclick="applyNeon('default')"></div>
             <div class="color-dot dot-cyan" title="Cyan" onclick="applyNeon('cyan')"></div>
@@ -425,7 +751,18 @@
 
         <h2>Age Calculator</h2>
         <p class="subtitle">Change any value below. The exact calculation will start updating instantly without pressing any button.</p>
-        
+
+        <div class="countdown-title">Your Current Age:</div>
+        <div class="countdown-row" id="currentAgeBoxes">
+            <div class="countdown-box"><span class="countdown-num" id="ageYears">0</span><span class="countdown-label">Years</span></div>
+            <div class="countdown-box"><span class="countdown-num" id="ageMonths">0</span><span class="countdown-label">Months</span></div>
+            <div class="countdown-box"><span class="countdown-num" id="ageDays">0</span><span class="countdown-label">Days</span></div>
+            <div class="countdown-box"><span class="countdown-num" id="ageHrs">0</span><span class="countdown-label">Hrs</span></div>
+            <div class="countdown-box"><span class="countdown-num" id="ageMins">0</span><span class="countdown-label">Mins</span></div>
+            <div class="countdown-box"><span class="countdown-num" id="ageSecs">0</span><span class="countdown-label">Secs</span></div>
+            <div class="countdown-box"><span class="countdown-num" id="ageMs">0</span><span class="countdown-label">Ms</span></div>
+        </div>
+
         <form id="ageForm" onsubmit="event.preventDefault();">
             <!-- Date of Birth Section -->
             <fieldset>
@@ -473,14 +810,28 @@
         <div id="resultsSection" class="results-section">
             <h3>Calculation Results</h3>
             
-            <!-- Badges for Sun Sign and Islamic Dates -->
-            <div class="meta-badge-container">
-                <div class="meta-badge" id="zodiacOutput">Sun Sign: Calculating...</div>
-                <div class="meta-badge" id="islamicBirthOutput">Islamic DOB: Calculating...</div>
-                <div class="meta-badge" id="islamicDateOutput">Current Islamic Date: Calculating...</div>
+            <!-- Info Buttons: Islamic Date & Time / Zodiac -->
+            <div class="info-btn-row">
+                <button type="button" class="info-btn" onclick="openInfoModal('islamic')">
+                    <span class="info-btn-icon">🌙</span>
+                    <span class="info-btn-label">Islamic Date &amp; Time</span>
+                </button>
+                <button type="button" class="info-btn" onclick="openInfoModal('zodiac')">
+                    <span class="info-btn-icon">♈</span>
+                    <span class="info-btn-label">Zodiac Sign</span>
+                </button>
             </div>
 
             <div class="bmed-tools-result-text" id="liveResultOutput"></div>
+        </div>
+
+        <!-- Info Modal (shared for Islamic Date/Time and Zodiac) -->
+        <div class="info-modal-overlay" id="infoModalOverlay" onclick="if(event.target===this) closeInfoModal();">
+            <div class="info-modal-box">
+                <button type="button" class="info-modal-close" onclick="closeInfoModal();">&times;</button>
+                <h4 id="infoModalTitle">Details</h4>
+                <div id="infoModalBody"></div>
+            </div>
         </div>
 
         <!-- ===== AdSense Ad Unit #2 (Bottom) ===== -->
@@ -501,8 +852,19 @@
             document.getElementById(screenId).classList.add('active');
         }
 
+        // Calculator screen ko top/bottom par smoothly scroll karne ka function
+        function scrollCalculator(direction) {
+            const screen = document.getElementById('screen-calculator');
+            if (direction === 'top') {
+                screen.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                screen.scrollTo({ top: screen.scrollHeight, behavior: 'smooth' });
+            }
+        }
+
         let liveInterval = null;
-        
+        let currentBirthDate = null; // Modal buttons ke liye latest birth date store hoti hai
+
         // Agar Islami tareeq me 1 din ka farq ho to yahan se adjustment badlein (-1 ya 1)
         const ISLAMIC_OFFSET_DAYS = -1; 
 
@@ -616,10 +978,7 @@
 
             const errorDiv = document.getElementById('errorMessage');
             const outputContainer = document.getElementById('liveResultOutput');
-            const zodiacBox = document.getElementById('zodiacOutput');
-            const islamicBirthBox = document.getElementById('islamicBirthOutput');
-            const islamicBox = document.getElementById('islamicDateOutput');
-            
+
             errorDiv.style.display = "none";
 
             const year = parseInt(document.getElementById('dobYear').value);
@@ -646,17 +1005,90 @@
                 return;
             }
 
-            // Set Static/Instant updates
-            zodiacBox.textContent = "Sun Sign: " + getZodiacSign(day, month);
-            islamicBirthBox.textContent = "Islamic DOB: " + convertToIslamicDate(birthDate, ISLAMIC_OFFSET_DAYS);
-            islamicBox.textContent = "Current Islamic Date: " + convertToIslamicDate(new Date(), ISLAMIC_OFFSET_DAYS);
+            // Latest birth date ko globally store karein (Islamic/Zodiac buttons ke liye)
+            currentBirthDate = birthDate;
 
             // لائیو لوپ چلائیں
             runCalculation(birthDate);
             liveInterval = setInterval(() => { 
                 runCalculation(birthDate); 
-                islamicBox.textContent = "Current Islamic Date: " + convertToIslamicDate(new Date(), ISLAMIC_OFFSET_DAYS);
-            }, 1000);
+                // Agar modal khula hua hai aur Islamic Date & Time dikha raha hai, to use bhi live update karein
+                const overlay = document.getElementById('infoModalOverlay');
+                if (overlay.classList.contains('active') && overlay.dataset.type === 'islamic') {
+                    renderIslamicModal();
+                }
+            }, 100); // Har 100ms mein update, taake milliseconds countdown live/smooth nazar aaye
+        }
+
+        // ===== Info Modal (Islamic Date & Time / Zodiac) =====
+        function openInfoModal(type) {
+            const overlay = document.getElementById('infoModalOverlay');
+            overlay.dataset.type = type;
+            if (type === 'zodiac') {
+                renderZodiacModal();
+            } else {
+                renderIslamicModal();
+            }
+            overlay.classList.add('active');
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModalOverlay').classList.remove('active');
+        }
+
+        function renderZodiacModal() {
+            const title = document.getElementById('infoModalTitle');
+            const body = document.getElementById('infoModalBody');
+            title.textContent = '♈ Zodiac Sign';
+            if (!currentBirthDate) {
+                body.innerHTML = '<p>Please select a valid Date of Birth first.</p>';
+                return;
+            }
+            const sign = getZodiacSign(currentBirthDate.getDate(), currentBirthDate.getMonth());
+            body.innerHTML = `<p><strong>Your Sun Sign is</strong>${sign}</p>`;
+        }
+
+        function renderIslamicModal() {
+            const title = document.getElementById('infoModalTitle');
+            const body = document.getElementById('infoModalBody');
+            title.textContent = '🌙 Islamic Date & Time';
+            if (!currentBirthDate) {
+                body.innerHTML = '<p>Please select a valid Date of Birth first.</p>';
+                return;
+            }
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            const islamicBirth = convertToIslamicDate(currentBirthDate, ISLAMIC_OFFSET_DAYS);
+            const islamicToday = convertToIslamicDate(now, ISLAMIC_OFFSET_DAYS);
+            body.innerHTML = `
+                <p><strong>Islamic Date of Birth</strong>${islamicBirth}</p>
+                <p><strong>Today's Islamic Date</strong>${islamicToday}</p>
+                <p><strong>Current Time</strong>${timeString}</p>
+            `;
+        }
+
+        // Do dates ke darmiyan Year/Month/Day/Hour/Min/Sec/Ms ka calendar-aware farq nikalne wala function
+        function dateDiffBreakdown(start, end) {
+            let years = end.getFullYear() - start.getFullYear();
+            let months = end.getMonth() - start.getMonth();
+            let days = end.getDate() - start.getDate();
+            let hours = end.getHours() - start.getHours();
+            let minutes = end.getMinutes() - start.getMinutes();
+            let seconds = end.getSeconds() - start.getSeconds();
+            let ms = end.getMilliseconds() - start.getMilliseconds();
+
+            if (ms < 0) { ms += 1000; seconds--; }
+            if (seconds < 0) { seconds += 60; minutes--; }
+            if (minutes < 0) { minutes += 60; hours--; }
+            if (hours < 0) { hours += 24; days--; }
+            if (days < 0) {
+                const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+                days += prevMonth;
+                months--;
+            }
+            if (months < 0) { months += 12; years--; }
+
+            return { years, months, days, hours, minutes, seconds, ms };
         }
 
         function runCalculation(birthDate) {
@@ -686,6 +1118,7 @@
             const totalHours = totalMinutes / 60;
             const totalDays = totalHours / 24;
             const totalWeeks = totalDays / 7;
+            const totalMilliseconds = diffMs;
             
             const totalMonths = (yearsAge * 12) + monthsAge + (daysAge / 30.4375);
             const decimalYears = totalDays / 365.2425;
@@ -694,12 +1127,16 @@
             if (now > nextBirthday) nextBirthday.setFullYear(now.getFullYear() + 1);
             
             let diffNextMs = nextBirthday - now;
+            let nextMs = diffNextMs % 1000;
             let nextSecs = Math.floor(diffNextMs / 1000);
             let nextMins = Math.floor(nextSecs / 60);
             let nextHours = Math.floor(nextMins / 60);
             let nextDays = Math.floor(nextHours / 24);
 
             nextSecs %= 60; nextMins %= 60; nextHours %= 24;
+
+            // Age calculation ke sath sath milliseconds bhi (birthDate ki ms hamesha 0 hoti hai)
+            const msAge = now.getMilliseconds();
 
             outputContainer.innerHTML = `
                 <strong>Today you are ${yearsAge} years ${monthsAge} months ${daysAge} days ${hoursAge} hrs ${minutesAge} mins ${secondsAge} secs old.</strong>
@@ -710,11 +1147,34 @@
                 or ${totalDays.toFixed(4)} days<br>
                 or ${Math.floor(totalHours).toLocaleString()}.${((totalHours % 1) * 10000).toFixed(0).padStart(4, '0')} hours<br>
                 or ${Math.floor(totalMinutes).toLocaleString()}.${((totalMinutes % 1) * 10000).toFixed(0).padStart(4, '0')} minutes<br>
-                or ${totalSeconds.toLocaleString()} seconds
+                or ${totalSeconds.toLocaleString()} seconds<br>
+                or ${totalMilliseconds.toLocaleString()} milliseconds
                 <br><br>
-                Your next birthday celebration is in:<br>
-                ${nextDays} days ${nextHours} hrs ${nextMins} mins ${nextSecs} secs.
+                <div class="countdown-title">Your next birthday celebration is in:</div>
+                <div class="countdown-row">
+                    <div class="countdown-box"><span class="countdown-num">${nextDays}</span><span class="countdown-label">Days</span></div>
+                    <div class="countdown-box"><span class="countdown-num">${nextHours}</span><span class="countdown-label">Hrs</span></div>
+                    <div class="countdown-box"><span class="countdown-num">${nextMins}</span><span class="countdown-label">Mins</span></div>
+                    <div class="countdown-box"><span class="countdown-num">${nextSecs}</span><span class="countdown-label">Secs</span></div>
+                    <div class="countdown-box"><span class="countdown-num">${nextMs}</span><span class="countdown-label">Ms</span></div>
+                </div>
             `;
+
+            // Title ke neeche wale "Current Age" boxes update karein
+            document.getElementById('ageYears').textContent = yearsAge;
+            document.getElementById('ageMonths').textContent = monthsAge;
+            document.getElementById('ageDays').textContent = daysAge;
+            document.getElementById('ageHrs').textContent = hoursAge;
+            document.getElementById('ageMins').textContent = minutesAge;
+            document.getElementById('ageSecs').textContent = secondsAge;
+            document.getElementById('ageMs').textContent = msAge;
+
+            // Top wale mini countdown boxes (Next Birthday) bhi isi data se update karein
+            document.getElementById('miniDays').textContent = nextDays;
+            document.getElementById('miniHrs').textContent = nextHours;
+            document.getElementById('miniMins').textContent = nextMins;
+            document.getElementById('miniSecs').textContent = nextSecs;
+            document.getElementById('miniMs').textContent = nextMs;
         }
     </script>
 </body>
