@@ -1,10 +1,10 @@
 {
-  "name": "Live Auto Age Calculator",
+  "name": "Age Calculator AH",
   "short_name": "Age Calculator",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f4f6f9",
-  "theme_color": "#34495e",
+  "theme_color": ""#0f1c3f"",
   "orientation": "portrait",
   "icons": [
     {
