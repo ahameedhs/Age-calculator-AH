@@ -273,18 +273,18 @@
         /* ===== Info Buttons (Islamic Date & Zodiac) - Countdown-box jaisa khoobsurat style ===== */
         .info-btn-row {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 15px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
 
         .info-btn {
-            flex: 1;
-            min-width: 140px;
+            flex: 1 1 0;
+            min-width: 0;
             background: #10131a;
             border: 1px solid #00e5ff;
             color: #ffffff;
-            padding: 14px 8px;
+            padding: 10px 6px;
             border-radius: 10px;
             font-family: inherit;
             cursor: pointer;
@@ -297,16 +297,17 @@
             transition: all 0.2s ease;
         }
         .info-btn .info-btn-icon {
-            font-size: 26px;
+            font-size: 20px;
             line-height: 1;
             text-shadow: 0 0 10px currentColor;
         }
         .info-btn .info-btn-label {
-            font-size: 11px;
+            font-size: 9px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
             opacity: 0.9;
+            white-space: nowrap;
         }
 
         .info-btn:hover {
@@ -411,6 +412,13 @@
                 flex-direction: column;
                 gap: 10px;
             }
+            body {
+                padding: 4px;
+            }
+            .calculator-container {
+                padding: 12px;
+                border-radius: 0;
+            }
         }
 
         /* ---- کُلر پیلیٹ (رنگوں کے گول نشان) کا نیا سٹائل ---- */
@@ -484,9 +492,18 @@
             color: inherit;
         }
 
+        .neon-picker {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: nowrap;
+            flex-shrink: 0;
+        }
+
         .color-dot {
             width: 18px;
             height: 18px;
+            flex-shrink: 0;
             border-radius: 50%;
             cursor: pointer;
             border: 2px solid #ffffff;
@@ -729,13 +746,15 @@
                 <div class="mini-countdown-box"><span class="mini-num" id="miniSecs">0</span><span class="mini-label">S</span></div>
                 <div class="mini-countdown-box"><span class="mini-num" id="miniMs">0</span><span class="mini-label">Ms</span></div>
             </div>
-            <span class="palette-label">Neon Theme:</span>
-            <div class="color-dot dot-default" title="Default Mode" onclick="applyNeon('default')"></div>
-            <div class="color-dot dot-cyan" title="Cyan" onclick="applyNeon('cyan')"></div>
-            <div class="color-dot dot-green" title="Green" onclick="applyNeon('green')"></div>
-            <div class="color-dot dot-red" title="Red" onclick="applyNeon('red')"></div>
-            <div class="color-dot dot-maroon" title="Maroon/Pink" onclick="applyNeon('maroon')"></div>
-            <div class="color-dot dot-golden" title="Golden" onclick="applyNeon('golden')"></div>
+            <div class="neon-picker">
+                <span class="palette-label">Neon Theme:</span>
+                <div class="color-dot dot-default" title="Default Mode" onclick="applyNeon('default')"></div>
+                <div class="color-dot dot-cyan" title="Cyan" onclick="applyNeon('cyan')"></div>
+                <div class="color-dot dot-green" title="Green" onclick="applyNeon('green')"></div>
+                <div class="color-dot dot-red" title="Red" onclick="applyNeon('red')"></div>
+                <div class="color-dot dot-maroon" title="Maroon/Pink" onclick="applyNeon('maroon')"></div>
+                <div class="color-dot dot-golden" title="Golden" onclick="applyNeon('golden')"></div>
+            </div>
         </div>
 
         <!-- ===== AdSense Ad Unit #1 (Top) =====
